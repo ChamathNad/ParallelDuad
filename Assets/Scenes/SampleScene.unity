@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flipClip: {fileID: 8300000, guid: 3eabb91510b8af84f9ef0d03380a56cc, type: 3}
   matchClip: {fileID: 8300000, guid: 9748a2776d4dde74f8dc924244f60171, type: 3}
-  mismatchClip: {fileID: 8300000, guid: b1486450059e1674c9ec7a2495e42b96, type: 3}
+  mismatchClip: {fileID: 8300000, guid: f898e8da6c3ab0f40914f607c5395963, type: 3}
   gameoverClip: {fileID: 8300000, guid: bb1994e0d260b1b47ad7e8fc8e878628, type: 3}
 --- !u!4 &54345254
 Transform:
@@ -886,7 +886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.18823531, g: 0.019607844, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -932,7 +932,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 70}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &265851668
@@ -2268,12 +2268,12 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Match all card pairs to finish the game.\n\nMode \u2013 Change card layout.\nScore
     \u2013 Your current score.\nFlips \u2013 Number of flips used.\nCombo \u2013
-    Increases with correct matches.\nWrong match resets or reduces it.\n\nSave \u2013
-    Save current progress.\nLoad \u2013 Load previously saved game.\nMute \u2013
-    Toggle sound On/Off\nInfo \u2013 Open this screen.\n\nPlay Button - Starts or
-    restarts the game with a new deck.\n\n<b>Board</b>\nClick cards to flip.\nMatch
-    two same cards to score.\nWrong matches break your combo.\nGame ends when all
-    pairs are matched."
+    Increases with correct matches.\nWrong match reduces it.\n\nSave \u2013 Save
+    current progress.\nLoad \u2013 Load previously saved game.\nMute \u2013 Toggle
+    sound On/Off\nInfo \u2013 Open this screen.\n\nPlay Button - Starts or restarts
+    the game with a new deck.\n\n<b>Board</b>\nClick cards to flip.\nMatch two same
+    cards to score.\nWrong matches break your combo.\nGame ends when all pairs are
+    matched."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6a308b504033c4748aeff1a852d38561, type: 2}
   m_sharedMaterial: {fileID: -5535121214778075183, guid: 6a308b504033c4748aeff1a852d38561, type: 2}
@@ -7289,21 +7289,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b329c9db34f9ac440ac9a18a18599a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shuffle: 1
+  shuffle: 0
   boardRect: {fileID: 255130968}
   modeRect: {fileID: 544113621}
   grid: {fileID: 255130971}
   seed: 0
   cardFronts:
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  cardBack: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 1184543513, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -27320795, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -398090186, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -328370587, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1013149188, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 809876457, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1315397327, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -662046496, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1306124556, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1937739526, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -434532190, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -2115798814, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1651564557, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -891996441, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -438989628, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 902685983, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -317078203, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 76604434, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1128273159, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1569468455, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -813721617, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1028872328, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -35775809, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -702851232, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -927201432, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1877317865, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 306565968, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1456125203, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1271767292, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1849804059, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 2317698, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 600309042, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -528892651, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 516562648, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -752340579, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -555714812, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -2066792430, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1990007774, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1999852951, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1232645908, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -942086191, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1789366183, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1004559784, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -921175740, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1084725778, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -89308233, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -915002562, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 1698888961, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -1562388980, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 484763898, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: -448160951, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  - {fileID: 766669461, guid: c6e269488614a184b8bc217d671409d0, type: 3}
+  cardBack: {fileID: 865328349, guid: 04f47523ef1d55041b430beeb635cfcb, type: 3}
   modes:
   - name: 2x2
     row: 2

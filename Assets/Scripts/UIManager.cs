@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateScore(int s) 
+    public void UpdateScore(float s) 
     { 
         scoreText.text = s.ToString("00.00");
     }
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
         message.text = text;
         messageBox.SetActive(true);
     }
-    public void GameEndMessage(int score, int flips)
+    public void GameEndMessage(float score, int flips)
     {
         GameEndUI.SetActive(true);
         scorefinalText.text = score.ToString("00.00");

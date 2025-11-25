@@ -6,7 +6,7 @@ public class SaveData
 {
     public int[] cardIds;
     public bool[] matched;
-    public int score;
+    public float score;
     public int flips;
     public int combo;
     public int mode;

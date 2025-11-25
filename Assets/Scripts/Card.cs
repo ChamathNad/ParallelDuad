@@ -55,13 +55,13 @@ public class Card : MonoBehaviour, IPointerClickHandler
         AudioManager.Instance.PlayFlip();
         State = CardState.Flipping;
         float half = flipDuration / 2f;
-        // rotate Y from 0 to 90
-        yield return RotateY(0, 90, half);
+        // rotate half
+        yield return RotateY(180, 90, half);
         // swap visuals
         frontImage.gameObject.SetActive(false);
         backImage.gameObject.SetActive(true);
-        // rotate 90 to 180 (final)
-        yield return RotateY(90, 180, half);
+        // rotate (final)
+        yield return RotateY(90, 0, half);
         State = CardState.FaceDown;
         flipCoroutine = null;
         transform.localEulerAngles = Vector3.zero;
@@ -72,13 +72,13 @@ public class Card : MonoBehaviour, IPointerClickHandler
         AudioManager.Instance.PlayFlip();
         State = CardState.Flipping;
         float half = flipDuration / 2f;
-        // rotate Y from 0 to 90
-        yield return RotateY(0, 90, half);
+        // rotate half
+        yield return RotateY(180, 90, half);
         // swap visuals
         frontImage.gameObject.SetActive(true);
         backImage.gameObject.SetActive(false);
-        // rotate 90 to 180 (final)
-        yield return RotateY(90, 180, half);
+        // rotate (final)
+        yield return RotateY(90, 0, half);
         State = CardState.FaceUp;
         flipCoroutine = null;
         OnFlipComplete?.Invoke(this);
@@ -122,7 +122,7 @@ public class Card : MonoBehaviour, IPointerClickHandler
     private IEnumerator PlaySpawn()
     {
         yield return Fade(0, 1f, 0.5f);
-        yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f,1f));
+        yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f,1.5f));
         if(State != CardState.Matched)
             FlipInvert();
     }

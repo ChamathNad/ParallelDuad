@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     private Queue<Card> flipQueue = new ();
     private List<Card> faceUpUnprocessed = new ();
 
-    private int score = 0;
+    private float score = 0;
     private int flip = 0;
     private int combo = 0;
     private int currmode = 3;
@@ -117,14 +117,18 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        List<int> ids = new List<int>();
+        List<int> ids = new();
         int pairCount = total / 2;
-        for (int i = 0; i < pairCount; i++) { ids.Add(i); ids.Add(i); }
+        for (int i = 0; i < pairCount; i++)
+        { 
+            ids.Add(i); 
+            ids.Add(i); 
+        }
 
         System.Random rng = new(seed);
 
-        if (shuffle)
-            ids = ids.OrderBy(x => rng.Next()).ToList();
+        ids = ids.OrderBy(x => rng.Next()).ToList();
+        var shuffledCards = cardFronts.OrderBy(x => rng.Next()).ToArray();
 
         for (int i = 0; i < total; i++)
         {
@@ -132,7 +136,7 @@ public class GameManager : MonoBehaviour
             
             int assignedId = ids[i];
             card.id = assignedId;
-            var fcard = cardFronts[assignedId % cardFronts.Length];
+            var fcard = shuffledCards[assignedId % shuffledCards.Length];
             card.SetCard(fcard, cardBack, assignedId);
 
             card.OnFlipComplete += OnCardFaceUp;
@@ -177,7 +181,7 @@ public class GameManager : MonoBehaviour
                     b.FlipInvert();
                     faceUpUnprocessed.Remove(a);
                     faceUpUnprocessed.Remove(b);
-                    combo = 0;
+                    combo--;
                     UIManager.Instance.UpdateCombo(combo);
                 }
 
@@ -197,11 +201,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private int CalculateScore()
+    private float CalculateScore()
     {
         combo++;
         UIManager.Instance.UpdateCombo(combo);
-        return 100 * combo;
+        return 100 + score * combo / 10f;
     }
 
     public void SaveGame()
