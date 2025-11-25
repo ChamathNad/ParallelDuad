@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
             var obj = Instantiate(Template, modeRect).GetComponent<Button>();
             obj.onClick.AddListener(() => SetMode(modeIndex));
             obj.targetGraphic.GetComponent<Image>().sprite = modes[modeIndex].icon;
+            obj.targetGraphic.GetComponentInChildren<TextMeshProUGUI>().text = modes[modeIndex].row * modes[modeIndex].col + "";
         }
 
         Template.SetActive(false);
