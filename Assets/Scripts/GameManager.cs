@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public bool shuffle = true;
-    public int rows = 4;
-    public int cols = 4;
+    public bool shuffle = true;    
     public RectTransform boardRect;
     public RectTransform modeRect;
     public GridLayoutGroup grid;
+    public int seed = 10;
 
     public Sprite[] cardFronts;
     public Sprite cardBack;
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private int flip = 0;
     private int combo = 0;
+    private int currmode = 3;
 
 
     void Awake()
@@ -65,23 +66,24 @@ public class GameManager : MonoBehaviour
         {
             int modeIndex = i;
             var obj = Instantiate(Template, modeRect).GetComponent<Button>();
-            obj.onClick.AddListener(() => SetMode(modes[modeIndex]));
+            obj.onClick.AddListener(() => SetMode(modeIndex));
             obj.targetGraphic.GetComponent<Image>().sprite = modes[modeIndex].icon;
         }
 
         Template.SetActive(false);
     }
 
-    public void SetMode(GameModes i)
+    public void SetMode(int i)
     {
-        rows = i.row;
-        cols = i.col;
-        UIManager.Instance.UpdateMode(i.name, i.icon);
+        currmode = i;
+        UIManager.Instance.UpdateMode(modes[i].name, modes[i].icon);
     }
 
 
     public void StartNewGame()
     {
+        seed = UnityEngine.Random.Range(1, 100);
+
         score = 0;
         flip = 0;
         combo = 0;
@@ -90,7 +92,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.UpdateCombo(combo);
         UIManager.Instance.UpdateScore(score);
 
-        ApplyLayout(rows, cols);
+        ApplyLayout(modes[currmode].row, modes[currmode].col);
         ClearBoard();
         CreateBoard();
     }
@@ -106,7 +108,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateBoard()
     {
-        int total = rows * cols;
+        int total = modes[currmode].row * modes[currmode].col;
         if (total % 2 != 0)
         {
             Debug.LogError("Total must be even");
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour
         int pairCount = total / 2;
         for (int i = 0; i < pairCount; i++) { ids.Add(i); ids.Add(i); }
 
-        System.Random rng = new();
+        System.Random rng = new(seed);
 
         if (shuffle)
             ids = ids.OrderBy(x => rng.Next()).ToList();
@@ -196,27 +198,56 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
+        SaveManager.Instance.SaveState(
+            new SaveData {
+               cardIds = allCards.Select(c => c.id).ToArray(),
+               matched = allCards.Select(c => c.State == CardState.Matched).ToArray(),
+               score = score,
+               flips = flip,
+               combo = combo,
+               mode = currmode,
+               seed = seed,
+             }
+         );
 
+        UIManager.Instance.SendUIMessage("Game Saved Successfully!");
     }
 
     public void LoadGame()
     {
+        var state = SaveManager.Instance.LoadState();
+        if (state == null) return;
 
+        seed = state.seed;
+        score = state.score;
+        flip = state.flips;
+        combo = state.combo;
+        UIManager.Instance.UpdateFlips(flip);
+        UIManager.Instance.UpdateCombo(combo);
+        UIManager.Instance.UpdateScore(score);
+        currmode = state.mode;
+        ApplyLayout(modes[currmode].row, modes[currmode].col);
+        ClearBoard();
+        CreateBoard();
+
+        for (int i = 0; i < Mathf.Min(allCards.Count, state.matched.Length); i++)
+            if (state.matched[i]) allCards[i].SetMatched(true);
+
+        UIManager.Instance.SendUIMessage("Game Loaded Successfully!");
     }
 
     public void ApplyLayout(int r, int c)
     {
-        rows = r; cols = c;
         float paddingX = grid.padding.left + grid.padding.right;
         float paddingY = grid.padding.top + grid.padding.bottom;
-        float spacingX = grid.spacing.x * (cols - 1);
-        float spacingY = grid.spacing.y * (rows - 1);
-        float cellW = (boardRect.rect.width - paddingX - spacingX) / cols;
-        float cellH = (boardRect.rect.height - paddingY - spacingY) / rows;
+        float spacingX = grid.spacing.x * (modes[currmode].col - 1);
+        float spacingY = grid.spacing.y * (modes[currmode].row - 1);
+        float cellW = (boardRect.rect.width - paddingX - spacingX) / modes[currmode].col;
+        float cellH = (boardRect.rect.height - paddingY - spacingY) / modes[currmode].row;
         float size = Mathf.Floor(Mathf.Min(cellW, cellH));
         grid.cellSize = new Vector2(size * 70/100f, size);
         grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-        grid.constraintCount = cols;
+        grid.constraintCount = modes[currmode].col;
     }
 }
 

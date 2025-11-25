@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI flipText;
     public TextMeshProUGUI comboText;
     public TextMeshProUGUI mode;
+    public TextMeshProUGUI message;
+    public GameObject messageBox;
     public Image modeIcon;
 
     void Awake()
@@ -47,15 +49,10 @@ public class UIManager : MonoBehaviour
         mode.text = gameMode;
     }
 
-    void Start()
+    public void SendUIMessage(string text)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        message.text = text;
+        messageBox.SetActive(true);
     }
 
 }

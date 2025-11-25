@@ -102,16 +102,26 @@ public class Card : MonoBehaviour, IPointerClickHandler
         transform.localEulerAngles = Vector3.zero;
         State = CardState.FaceDown;
     }
-    public void SetMatched()
+    public void SetMatched(bool force = false)
     {
+        if (force)
+        {
+            StopAllCoroutines();
+            frontImage.gameObject.SetActive(true);
+            backImage.gameObject.SetActive(false);
+            flipCoroutine = null;
+        }
+
         State = CardState.Matched;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         StartCoroutine(PlayDespawn());
+
     }
     private IEnumerator PlaySpawn()
     {
         yield return new WaitForSeconds(1f);
-        FlipInvert();
+        if(State != CardState.Matched)
+            FlipInvert();
     }
     private IEnumerator PlayDespawn()
     {
