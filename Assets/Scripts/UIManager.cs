@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI message;
     public GameObject messageBox;
     public Image modeIcon;
+    public GameObject GameEndUI;
+    public TextMeshProUGUI scorefinalText;
+    public TextMeshProUGUI flipfinalText;
 
     void Awake()
     {
@@ -54,7 +57,11 @@ public class UIManager : MonoBehaviour
         message.text = text;
         messageBox.SetActive(true);
     }
-
-
+    public void GameEndMessage(int score, int flips)
+    {
+        GameEndUI.SetActive(true);
+        scorefinalText.text = score.ToString("00.00");
+        flipText.text = flips.ToString();
+    }
 
 }

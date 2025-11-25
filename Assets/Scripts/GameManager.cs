@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -160,7 +159,7 @@ public class GameManager : MonoBehaviour
 
                 if (a.id == b.id)
                 {
-                    //SFX;
+                    AudioManager.Instance.PlayMatch();
                     a.SetMatched();
                     b.SetMatched();
                     score += CalculateScore();
@@ -170,7 +169,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    //SFX;
+                    AudioManager.Instance.PlayMismatch();
                     yield return new WaitForSeconds(0.5f);
                     a.FlipInvert();
                     b.FlipInvert();
@@ -178,13 +177,19 @@ public class GameManager : MonoBehaviour
                     faceUpUnprocessed.Remove(b);
                     combo = 0;
                     UIManager.Instance.UpdateCombo(combo);
-                    //COMBO RESET
                 }
 
                 yield return null;
             }
             else
             {
+                var filtered = allCards.Where(c => c.State != CardState.Matched).ToList();
+                if (filtered.Count == 0)
+                {
+                    yield return new WaitForSeconds(1f);
+                    AudioManager.Instance.PlayGameOver();
+                    UIManager.Instance.GameEndMessage(score, flip);
+                }
                 break;
             }
         }

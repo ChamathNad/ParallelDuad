@@ -39,7 +39,7 @@ public class DynamicUILayoutUpdater : MonoBehaviour
             // --- Apply Pivot
             boardRect.pivot = new Vector2(0.5f, 0.5f);
             // --- Apply Position and Size ---
-            boardRect.anchoredPosition = new Vector2(375f, 0f);
+            boardRect.anchoredPosition = new Vector2(400f, 0f);
             boardRect.sizeDelta = new Vector2(1030f, 0f);
             // Setting Top and Bottom margins 
             boardRect.offsetMin = new Vector2(boardRect.offsetMin.x, 50f);
