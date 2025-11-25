@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -13,10 +13,12 @@ public class GameManager : MonoBehaviour
     public int rows = 4;
     public int cols = 4;
     public RectTransform boardRect;
+    public RectTransform modeRect;
     public GridLayoutGroup grid;
 
     public Sprite[] cardFronts;
     public Sprite cardBack;
+    public GameModes[] modes;
     public GameObject CardPrefab;
 
 
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviour
     private List<Card> faceUpUnprocessed = new ();
 
     private int score = 0;
+    private int flip = 0;
+    private int combo = 0;
 
 
     void Awake()
@@ -43,7 +47,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartNewGame();
+        setGameModeUI();
     }
 
     // Update is called once per frame
@@ -52,13 +56,43 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void StartNewGame(int? seed = null)
+    public void setGameModeUI()
+    {
+        GameObject Template = modeRect.GetChild(0).gameObject;
+
+
+        for (int i = 0; i < modes.Length; i++)
+        {
+            int modeIndex = i;
+            var obj = Instantiate(Template, modeRect).GetComponent<Button>();
+            obj.onClick.AddListener(() => SetMode(modes[modeIndex]));
+            obj.targetGraphic.GetComponent<Image>().sprite = modes[modeIndex].icon;
+        }
+
+        Template.SetActive(false);
+    }
+
+    public void SetMode(GameModes i)
+    {
+        rows = i.row;
+        cols = i.col;
+        UIManager.Instance.UpdateMode(i.name, i.icon);
+    }
+
+
+    public void StartNewGame()
     {
         score = 0;
-        //RESET UI SCORE HERE
+        flip = 0;
+        combo = 0;
+
+        UIManager.Instance.UpdateFlips(flip);
+        UIManager.Instance.UpdateCombo(combo);
+        UIManager.Instance.UpdateScore(score);
+
         ApplyLayout(rows, cols);
         ClearBoard();
-        CreateBoard(seed);
+        CreateBoard();
     }
 
     public void ClearBoard()
@@ -70,7 +104,7 @@ public class GameManager : MonoBehaviour
         flipQueue.Clear();
     }
 
-    public void CreateBoard(int? seed)
+    public void CreateBoard()
     {
         int total = rows * cols;
         if (total % 2 != 0)
@@ -83,7 +117,8 @@ public class GameManager : MonoBehaviour
         int pairCount = total / 2;
         for (int i = 0; i < pairCount; i++) { ids.Add(i); ids.Add(i); }
 
-        System.Random rng = seed.HasValue ? new System.Random(seed.Value) : new System.Random();
+        System.Random rng = new();
+
         if (shuffle)
             ids = ids.OrderBy(x => rng.Next()).ToList();
 
@@ -102,7 +137,9 @@ public class GameManager : MonoBehaviour
     }
     void OnCardFaceUp(Card card)
     {        
-        faceUpUnprocessed.Add(card);        
+        faceUpUnprocessed.Add(card);
+        flip++;
+        UIManager.Instance.UpdateFlips(flip);
         StartCoroutine(ProcessComparisons());
     }
 
@@ -123,8 +160,8 @@ public class GameManager : MonoBehaviour
                     //SFX;
                     a.SetMatched();
                     b.SetMatched();
-                    score += CalculateScore(true);
-                    //UPDATE SCORE
+                    score += CalculateScore();
+                    UIManager.Instance.UpdateScore(score);
                     faceUpUnprocessed.Remove(a);
                     faceUpUnprocessed.Remove(b);
                 }
@@ -136,9 +173,9 @@ public class GameManager : MonoBehaviour
                     b.FlipInvert();
                     faceUpUnprocessed.Remove(a);
                     faceUpUnprocessed.Remove(b);
+                    combo = 0;
+                    UIManager.Instance.UpdateCombo(combo);
                     //COMBO RESET
-                    score += CalculateScore(false);
-                    //UPDATE SCORE
                 }
 
                 yield return null;
@@ -150,13 +187,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    int CalculateScore(bool matched)
+    private int CalculateScore()
     {
-        //SOME COMBO LOGIC
-        if (matched)
-            return 100; 
-        else 
-            return 0;
+        combo++;
+        UIManager.Instance.UpdateCombo(combo);
+        return 100 * combo;
     }
 
     public void SaveGame()
@@ -183,4 +218,17 @@ public class GameManager : MonoBehaviour
         grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         grid.constraintCount = cols;
     }
+}
+
+[Serializable]
+public struct GameModes
+{
+    [SerializeField]
+    public string name;
+    [SerializeField]
+    public int row;
+    [SerializeField]
+    public int col;
+    [SerializeField]
+    public Sprite icon;
 }
