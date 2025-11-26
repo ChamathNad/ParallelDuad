@@ -33,7 +33,10 @@ public class UIManager : MonoBehaviour
             //DontDestroyOnLoad(gameObject);
         }
     }
-
+    public void ExitButton()
+    {
+        Application.Quit();
+    }
     public void UpdateScore(float s) 
     { 
         scoreText.text = s.ToString("00.00");

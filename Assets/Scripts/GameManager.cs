@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private int flip = 0;
     private int combo = 0;
     private int currmode = 3;
+    private float oldValue;
 
 
     void Awake()
@@ -53,9 +54,18 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        if (boardRect == null)
+            return;
+
+        var newvalue = (float)Screen.width / Screen.height;
+
+        if (oldValue != newvalue)
+        {
+            oldValue = newvalue;
+            ApplyLayout(modes[currmode].row, modes[currmode].col);
+        }
     }
 
     public void setGameModeUI()

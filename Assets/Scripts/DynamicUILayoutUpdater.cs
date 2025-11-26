@@ -3,12 +3,38 @@ using UnityEngine.UI;
 
 public class DynamicUILayoutUpdater : MonoBehaviour
 {
-    public RectTransform boardRect;
-    public RectTransform MenuRect;
-
-    private void OnRectTransformDimensionsChange()
+    [System.Serializable]
+    public struct RectPreset
     {
-        UpdateMyCustomLayouts();
+        [SerializeField]
+        public Vector2 AnchorMin;
+        [SerializeField]
+        public Vector2 AnchorMax;
+        [SerializeField]
+        public Vector2 Pivot;
+        [SerializeField]
+        public Vector2 Position;
+        [SerializeField]
+        public Vector2 Size;
+        [SerializeField]
+        public Vector2 PaddingTop;
+        [SerializeField]
+        public Vector2 PaddingBottom;
+        [SerializeField]
+        public Vector2 scale;
+
+
+    }
+
+    public RectPreset Landscape;
+    public RectPreset Portrait;
+
+    private RectTransform boardRect;
+    private float oldValue;
+
+    private void Awake()
+    {
+        boardRect = GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -16,62 +42,52 @@ public class DynamicUILayoutUpdater : MonoBehaviour
         UpdateMyCustomLayouts();
     }
 
+
+    private void FixedUpdate()
+    {
+        if (boardRect == null)
+            return;
+
+        var newvalue = (float)Screen.width / Screen.height;
+
+        if (oldValue != newvalue)
+        {
+            oldValue = newvalue;
+            UpdateMyCustomLayouts();
+        }
+    }
+
     private void UpdateMyCustomLayouts()
     {
         if(Screen.width / Screen.height > 0)
         {
-            // --- Apply Anchors
-            MenuRect.anchorMin = new Vector2(0.5f, 0f);
-            MenuRect.anchorMax = new Vector2(0.5f, 1f);
-            // --- Apply Pivot
-            MenuRect.pivot = new Vector2(0.5f, 0.5f);
-            // --- Apply Position and Size ---
-            MenuRect.anchoredPosition = new Vector2(-550f, 0f);
-            MenuRect.sizeDelta = new Vector2(730f, 0f);
-            // Setting Top and Bottom margins 
-            MenuRect.offsetMin = new Vector2(MenuRect.offsetMin.x, 0f);
-            MenuRect.offsetMax = new Vector2(MenuRect.offsetMax.x, 0f);
+            boardRect.anchorMin = Landscape.AnchorMin;
+            boardRect.anchorMax = Landscape.AnchorMax;
+            boardRect.pivot = Landscape.Pivot;
+            boardRect.anchoredPosition = Landscape.Position;
+            boardRect.sizeDelta = Landscape.Size;
 
-
-            // --- Apply Anchors
-            boardRect.anchorMin = new Vector2(0.5f, 0f);
-            boardRect.anchorMax = new Vector2(0.5f, 1f);
-            // --- Apply Pivot
-            boardRect.pivot = new Vector2(0.5f, 0.5f);
-            // --- Apply Position and Size ---
-            boardRect.anchoredPosition = new Vector2(400f, 0f);
-            boardRect.sizeDelta = new Vector2(1030f, 0f);
-            // Setting Top and Bottom margins 
-            boardRect.offsetMin = new Vector2(boardRect.offsetMin.x, 50f);
-            boardRect.offsetMax = new Vector2(boardRect.offsetMax.x, -50f);
+            boardRect.offsetMin += Landscape.PaddingTop;
+            boardRect.offsetMax += Landscape.PaddingBottom;
+            //boardRect.offsetMin = new Vector2(boardRect.offsetMin.x, Landscape.PaddingTop.y);
+            //boardRect.offsetMax = new Vector2(boardRect.offsetMax.x, Landscape.PaddingBottom.y);
+            boardRect.localScale = Landscape.scale;
         }
         else
         {
-            // --- Apply Anchors
-            MenuRect.anchorMin = new Vector2(0f, 0.5f);
-            MenuRect.anchorMax = new Vector2(1f, 0.5f);
-            // --- Apply Pivot
-            MenuRect.pivot = new Vector2(0.5f, 0.5f);
-            // --- Apply Position and Size ---
-            MenuRect.anchoredPosition = new Vector2(0f, -900f);
-            MenuRect.sizeDelta = new Vector2(0f, 1680f);
-            // Setting Top and Bottom margins 
-            MenuRect.offsetMin = new Vector2(0f, MenuRect.offsetMin.y);
-            MenuRect.offsetMax = new Vector2(0f, MenuRect.offsetMax.y);
-
-
-
             // --- Apply Anchors:
-            boardRect.anchorMin = new Vector2(0f, 0.5f);
-            boardRect.anchorMax = new Vector2(1f, 0.5f);
-            // --- Apply Pivot: Center (0.5, 0.5) ---
-            boardRect.pivot = new Vector2(0.5f, 0.5f);
-            // --- Apply Position and Size ---
-            boardRect.anchoredPosition = new Vector2(0f, 850f);
-            boardRect.sizeDelta = new Vector2(0f, 1680f);
-            boardRect.offsetMin = new Vector2(90f, boardRect.offsetMin.y);
-            boardRect.offsetMax = new Vector2(-90f, boardRect.offsetMax.y);
+            boardRect.anchorMin = Portrait.AnchorMin;
+            boardRect.anchorMax = Portrait.AnchorMax;
+            boardRect.pivot = Portrait.Pivot;
+            boardRect.anchoredPosition = Portrait.Position;
+            boardRect.sizeDelta = Portrait.Size;
+            boardRect.offsetMin += Portrait.PaddingTop;
+            boardRect.offsetMax += Portrait.PaddingBottom;
+            //boardRect.offsetMin = new Vector2(Portrait.PaddingTop.x, boardRect.offsetMin.y);
+            //boardRect.offsetMax = new Vector2(Portrait.PaddingBottom.x, boardRect.offsetMax.y);
+            boardRect.localScale = Portrait.scale;
 
         }
     }
+
 }
