@@ -184,6 +184,8 @@ public class GameManager : MonoBehaviour
                     faceUpUnprocessed.Remove(a);
                     faceUpUnprocessed.Remove(b);
                     combo--;
+                    if (combo < 0)
+                        combo = 0;
                     UIManager.Instance.UpdateCombo(combo);
                 }
 
