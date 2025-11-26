@@ -855,6 +855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed23bc9349348724b83f9f3e653732af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectBoard: 0
   Landscape:
     AnchorMin: {x: 0, y: 0}
     AnchorMax: {x: 1, y: 1}
@@ -1390,6 +1391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed23bc9349348724b83f9f3e653732af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectBoard: 1
   Landscape:
     AnchorMin: {x: 0.5, y: 0}
     AnchorMax: {x: 0.5, y: 1}
@@ -1500,6 +1502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed23bc9349348724b83f9f3e653732af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectBoard: 0
   Landscape:
     AnchorMin: {x: 0, y: 0.5}
     AnchorMax: {x: 1, y: 0.5}
@@ -1641,6 +1644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed23bc9349348724b83f9f3e653732af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectBoard: 0
   Landscape:
     AnchorMin: {x: 0.5, y: 0}
     AnchorMax: {x: 0.5, y: 1}
@@ -7547,6 +7551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed23bc9349348724b83f9f3e653732af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectBoard: 0
   Landscape:
     AnchorMin: {x: 0, y: 0}
     AnchorMax: {x: 1, y: 1}
@@ -8371,6 +8376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed23bc9349348724b83f9f3e653732af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EffectBoard: 0
   Landscape:
     AnchorMin: {x: 0, y: 0}
     AnchorMax: {x: 1, y: 1}

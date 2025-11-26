@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     private int flip = 0;
     private int combo = 0;
     private int currmode = 3;
-    private float oldValue;
+
 
 
     void Awake()
@@ -53,19 +53,10 @@ public class GameManager : MonoBehaviour
         setGameModeUI();
     }
 
-    // Update is called once per frame
-    private void FixedUpdate()
+    public IEnumerator Refreshlayout()
     {
-        if (boardRect == null)
-            return;
-
-        var newvalue = (float)Screen.width / Screen.height;
-
-        if (oldValue != newvalue)
-        {
-            oldValue = newvalue;
-            ApplyLayout(modes[currmode].row, modes[currmode].col);
-        }
+        yield return null;
+        ApplyLayout(modes[currmode].row, modes[currmode].col);
     }
 
     public void setGameModeUI()
@@ -89,6 +80,7 @@ public class GameManager : MonoBehaviour
     {
         currmode = i;
         UIManager.Instance.UpdateMode(modes[i].name, modes[i].icon);
+        ClearBoard();
     }
 
 

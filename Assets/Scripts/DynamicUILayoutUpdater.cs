@@ -26,6 +26,8 @@ public class DynamicUILayoutUpdater : MonoBehaviour
 
     }
 
+    public bool EffectBoard = false;
+
     public RectPreset Landscape;
     public RectPreset Portrait;
 
@@ -88,6 +90,9 @@ public class DynamicUILayoutUpdater : MonoBehaviour
             boardRect.localScale = Portrait.scale;
 
         }
+
+        if(EffectBoard)
+            StartCoroutine(GameManager.Instance.Refreshlayout());
     }
 
 }
