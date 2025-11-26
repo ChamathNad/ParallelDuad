@@ -132,8 +132,8 @@ Assets/Scenes/Main.unity
 
 | Platform | Link |
 |------|-------|
-| PC Build | (coming soon) |
-| Android Build | (coming soon) |
+| PC Build | https://github.com/ChamathNad/ParallelDuad/releases/tag/PrototypeBuilds |
+| Android Build | https://github.com/ChamathNad/ParallelDuad/releases/tag/PrototypeBuilds |
 | WebGL Build | (coming soon) |
 
 ---
